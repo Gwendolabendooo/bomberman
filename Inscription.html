@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Boom Party</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href = "style.css" rel = "stylesheet" type = "text/css">
+    </head>
+    <body>
+        <div id="logo">
+            <img src="./ressources/logo.png" alt="">
+        </div>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+
+        <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyDKOp5J0pfn3z1mL6OWAaj8t-8eyAf2mWY",
+            authDomain: "boom-party-194ed.firebaseapp.com",
+            databaseURL: "https://boom-party-194ed-default-rtdb.firebaseio.com",
+            projectId: "boom-party-194ed",
+            storageBucket: "boom-party-194ed.appspot.com",
+            messagingSenderId: "880978623123",
+            appId: "1:880978623123:web:208d6248bbf38df735ab66",
+            measurementId: "G-5DXJ3Z4FZZ"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        </script>
+    </body>
+</html>

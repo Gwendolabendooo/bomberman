@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Boom Party</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href = "style.css" rel = "stylesheet" type = "text/css">
+    </head>
+    <body>
+        <div id="ctnacc">
+            <div id="listechoix">
+                <div id="logo">
+                    <img src="./ressources/logo.png" alt="">
+                </div>
+                <div class="categorie">
+                    <img src="./ressources/coupe.png" class="imgcat" alt="">
+                    Classement
+                </div>
+                <a href="./hub.html">
+                <div class="categorie">
+                    <img src="./ressources/bombecat.png" class="imgcat" alt="">
+                    Battle royal
+                </div>
+                </a>
+                <a href="">
+                    <div class="categorie">
+                        <img src="./ressources/bombecat.png" class="imgcat" alt="">
+                        2 v 2
+                    </div>
+                </a>
+            </div>
+            <div id="nouveautes">
+                <h2>Nouveautées à venir</h2>
+            </div>
+        </div>
+        <img src="" id="imgprofile" alt="">
+
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+
+        <script src="./config.js"></script>
+
+        <script type="text/javascript">
+        firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            console.log(user.photoURL);
+            document.getElementById('imgprofile').src = user.photoURL;
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+        });
+        </script>
+    </body>
+</html>
