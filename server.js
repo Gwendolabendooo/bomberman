@@ -16,7 +16,7 @@ httpServer = http.createServer(function(req, res){
     console.log('un user afficher la page');
 });
 
-httpServer.listen(8080);
+httpServer.listen(3000);
 
 var io = require('socket.io').listen(httpServer);
 
