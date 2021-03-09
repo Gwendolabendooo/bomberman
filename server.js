@@ -16,7 +16,7 @@ httpServer = http.createServer(function(req, res){
     console.log('un user afficher la page');
 });
 
-httpServer.listen(3000);
+httpServer.listen(8080);
 
 var io = require('socket.io').listen(httpServer);
 
@@ -59,8 +59,9 @@ io.sockets.on('connection', function(socket){
        if (room[1].length > 0) {
          for (var i = 0; i < room[1].length; i++) {
            if (room[1][i][1] == socket.id) {
-             data = socket.id
-             socket.broadcast.to(room[0]).emit('enemymort', data);
+             data = i
+             console.log("mort", i)
+             io.sockets.to(room[0]).emit('enemymort', data);
            }
          }
        }
@@ -97,6 +98,18 @@ io.sockets.on('connection', function(socket){
           for (var i = 0; i < room[1].length; i++) {
             if (room[1][i][1] == socket.id) {
               socket.broadcast.to(room[0]).emit('vitessej', data);
+            }
+          }
+        }
+      });
+     })
+
+     socket.on('start', function(data){
+      listserv.forEach((room) => {
+        if (room[1].length > 0) {
+          for (var i = 0; i < room[1].length; i++) {
+            if (room[1][i][1] == socket.id) {
+              socket.broadcast.to(room[0]).emit('debut', data);
             }
           }
         }

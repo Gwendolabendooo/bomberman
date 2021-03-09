@@ -216,8 +216,8 @@ h1{
 }
 #vie{
   height: 85px;
-  display: flex;
   width: 80%;
+  text-align: center;
   margin: auto;
 }
 .vie{
@@ -240,6 +240,7 @@ h1{
 }
 .participantroom{
   position: relative;
+  font-family: Anton;
 }
 .timer{
   font-size: 25px;
@@ -269,7 +270,7 @@ h1{
 }
 #dPerso{
   width: 200px;
-  background-color: #9e1253;
+  background-color: #212121;
   position: relative;
 }
 
@@ -330,9 +331,45 @@ h1{
 #logoroom > img{
   width: 100%;
 }
-
+.gagnant{
+  width: 144px;
+  padding: 20px;
+  margin: auto;
+}
+.pseudogagnant{
+  font-family: Anton;
+}
+.img-gagnant{
+  width: 100%;
+}
 #logo > img{
   width: 100%;
+}
+.participantmort{
+  width: 40%;
+  margin: auto;
+  display: inline-block;
+  filter: grayscale(1);
+  margin-bottom: 30px;
+}
+#backpopin{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: none;
+  z-index: 10;
+  background-color: #00000085;
+}
+#ctnpopin{
+  width: 500px;
+  padding: 50px;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  color: black;
+  text-align: center;
+  position: fixed;
 }
 
 .buttonSign{

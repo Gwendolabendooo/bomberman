@@ -1,8 +1,9 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://localhost:8080');
 
-document.querySelector("#btnjoue").addEventListener('click', event => {
-        document.querySelector("#allroom").style.display = "none";
-        document.querySelector("#game").style.display = "block";
+      document.querySelector("#ctnpopin > div.jouer").addEventListener('click', event => {
+        document.querySelector("#backpopin").style.display = "none";
+        document.querySelector("#allroom").style.display = "block";
+        document.querySelector("#game").style.display = "none";
       })
 
 var room = ["alpha", "beta", "gamma", "delta", "epsilon", "lambda", "omicron", "sigma", "omega"];
@@ -77,10 +78,13 @@ socket.on('deco', function(data) {
   mur.src="./ressources/mur.png";
 
   var bomb=new Image();
-  bomb.src="./ressources/bomb.png";
+  bomb.src="./ressources/bomb2.png";
 
   var perso=new Image();
   perso.src="./ressources/Face.png";
+
+  var sol=new Image();
+  sol.src="./ressources/sol.svg";
 
   var immunise = 0;
   var dureeimmu = 0;
@@ -309,6 +313,11 @@ socket.on('deco', function(data) {
   var vitesse = 1;
 
   document.querySelector("#btnjoue").addEventListener('click', event => {
+    socket.emit('start', "debut");
+
+    document.querySelector("#allroom").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+
     now = new Date();
     h  = now.getHours();
     m  = now.getMinutes();
@@ -320,9 +329,40 @@ socket.on('deco', function(data) {
     timerbomb = parseInt(document.querySelector("#explosion").value)
     nbrvie = parseInt(document.querySelector("#nbvie").value)
     vitesse = parseInt(document.querySelector("#vitessej").value)
-    console.log(timerbomb)
-    
+
+    while(document.getElementsByClassName('vie').length > 0){
+      document.getElementsByClassName('vie')[0].parentNode.removeChild(document.getElementsByClassName('vie')[0]);
+    }
+
+    for (let index = 0; index < nbrvie; index++) {
+      document.querySelector("#vie").insertAdjacentHTML('afterBegin', "<img class='vie' src='./ressources/vie.png'></img>"); 
+    }
   })
+
+  socket.on('debut', function(data) {
+    document.querySelector("#allroom").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+
+    now = new Date();
+    h  = now.getHours();
+    m  = now.getMinutes();
+    s = now.getSeconds();
+ 
+    depart = h*3600+m*60+s;
+    console.log(depart)
+
+    timerbomb = parseInt(document.querySelector("#explosion").value)
+    nbrvie = parseInt(document.querySelector("#nbvie").value)
+    vitesse = parseInt(document.querySelector("#vitessej").value)
+
+    while(document.getElementsByClassName('vie').length > 0){
+      document.getElementsByClassName('vie')[0].parentNode.removeChild(document.getElementsByClassName('vie')[0]);
+    }
+
+    for (let index = 0; index < nbrvie; index++) {
+      document.querySelector("#vie").insertAdjacentHTML('afterBegin', "<img class='vie' src='./ressources/vie.png'></img>"); 
+    }
+})
 
   socket.on('posjoueur', function(data) {
     if (posj.length > 0) {
@@ -352,19 +392,20 @@ socket.on('deco', function(data) {
 
   socket.on('enemymort', function(data) {
     console.log(data)
+    document.getElementsByClassName('participant')[data].className = 'participantmort';
   });
   
   render = function() {
 
-    buffer.fillStyle = "white";
-    buffer.fillRect(0, 0, buffer.canvas.width, buffer.canvas.height);
+    buffer.fillStyle = "green";
+    buffer.drawImage(sol, 0, 0, buffer.canvas.width, buffer.canvas.height);
     var z = 0;
     const posRect = [];
     while (z < 210*4*2*2) {
       var i = 0;
       while (i < 210*4*2*2) {
-        buffer.drawImage(mur, 3480 - i, 3480 - z, OBJECT_SIZE, OBJECT_SIZE);
-        posRect.push(new Array('3480'- i, '3480'- z));
+        buffer.drawImage(mur, 3520 - i, 3520 - z, OBJECT_SIZE, OBJECT_SIZE);
+        posRect.push(new Array('3520'- i, '3520'- z));
         i += OBJECT_SIZE * 2;
       } 
       z += OBJECT_SIZE * 2;
@@ -446,6 +487,10 @@ socket.on('deco', function(data) {
       }
     }
 
+    if (document.getElementsByClassName('participant').length == 1 && document.querySelector("#game").style.display == "block") {
+      document.querySelector("#backpopin").style.display = "block"
+    }
+
     //Explosion
     var vie = document.getElementById('vie');
       for(var explo=0; explo < explosion.length; explo++){
@@ -495,9 +540,11 @@ socket.on('deco', function(data) {
     socket.emit('position', [player.x, player.y, player.animation.frame]);
 
     //fin de partie
-    if (vie.children.length == 0) {
-      socket.emit('mort', "mort");
-      deces = 1
+    if (document.querySelector("#game").style.display == "block") {
+      if (vie.children.length == 0 && deces == 0) {
+        socket.emit('mort', "mort");
+        deces = 1
+      } 
     }
 
     buffer.drawImage(sprite_sheet.image, player.animation.frame * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE, Math.floor(player.x), Math.floor(player.y), SPRITE_SIZE, SPRITE_SIZE);
@@ -507,10 +554,10 @@ socket.on('deco', function(data) {
   //cases
   const cases = [];
   var z = 0;
-  while (z < 3640) {
+  while (z < 3680) {
     var i = 0;
-    while (i < 3640) {
-      cases.push(new Array('3640'- i, '3640'- z));
+    while (i < 3680) {
+      cases.push(new Array('3680'- i, '3680'- z));
       i += OBJECT_SIZE;
     } 
     z += OBJECT_SIZE;
@@ -522,7 +569,7 @@ socket.on('deco', function(data) {
     var heure   = now.getHours();
     var minute  = now.getMinutes();
     var seconde = now.getSeconds();
-    console.log(heure * 3600 + minute * 60 + seconde)
+    console.log(deces, tempsbombe + 3, " < ", heure * 3600 + minute * 60 + seconde)
     if (deces == 0 && tempsbombe + 3 < heure * 3600 + minute * 60 + seconde) {
       console.log(tempsbombe, heure * 3600 + minute * 60 + seconde)
 
