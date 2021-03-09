@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect('http://localhost:3000');
 
 document.querySelector("#btnjoue").addEventListener('click', event => {
         document.querySelector("#allroom").style.display = "none";
